@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Cultivation Preferences | MushroomGuard AI{% endblock %}
+{% block page_title %}Cultivation Preferences{% endblock %}
+{% block page_subtitle %}Choose what you grow and select your varieties{% endblock %}
+{% block content %}
+<section class="content-card preferences-card"><div class="section-heading"><div><h2>Personalize your cultivation dashboard</h2><p>Select one or both categories and at least one variety within each category you enable.</p></div></div>
+<form method="post" class="preferences-form">
+  <div class="preference-grid">
+    <section class="preference-option"><label class="preference-heading"><input type="checkbox" name="grows_mushrooms" value="1" {% if preferences and preferences['grows_mushrooms'] %}checked{% endif %}><span class="preference-emoji">🍄</span><span><strong>Mushroom Cultivation</strong><small>Choose the mushroom varieties you grow.</small></span></label><div class="choice-grid">{% for crop in mushrooms %}<label class="choice"><input type="checkbox" name="mushroom_crops" value="{{ crop }}" {% if crop in selected_mushrooms %}checked{% endif %}><span>{{ crop }}</span></label>{% endfor %}</div></section>
+    <section class="preference-option"><label class="preference-heading"><input type="checkbox" name="grows_microgreens" value="1" {% if preferences and preferences['grows_microgreens'] %}checked{% endif %}><span class="preference-emoji">🌱</span><span><strong>Microgreen Cultivation</strong><small>Choose the microgreen varieties you grow.</small></span></label><div class="choice-grid">{% for crop in microgreens %}<label class="choice"><input type="checkbox" name="microgreen_crops" value="{{ crop }}" {% if crop in selected_microgreens %}checked{% endif %}><span>{{ crop }}</span></label>{% endfor %}</div></section>
+  </div>
+  <div class="form-actions"><button class="btn btn-primary btn-large">Save Preferences</button><a class="btn btn-light btn-large" href="{{ url_for('dashboard.index') }}">Cancel</a></div>
+</form></section>
+{% endblock %}

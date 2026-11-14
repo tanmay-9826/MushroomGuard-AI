@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="{{ current_language|default('en') }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f8f4">
+  <title>{% block title %}MushroomGuard AI{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="{% if session.get('user_id') %}authenticated{% else %}guest{% endif %}">
+{% if session.get('user_id') %}
+  <aside class="sidebar">
+    <a class="brand" href="{{ url_for('dashboard.index') }}">
+      <span class="brand-mark">🍄</span>
+      <span class="brand-copy"><strong>MushroomGuard <b>AI</b></strong><small>FARM MANAGEMENT</small></span>
+    </a>
+    <nav class="side-nav" aria-label="Main navigation">
+      <a class="nav-link {% if request.path == '/dashboard' %}active{% endif %}" href="{{ url_for('dashboard.index') }}"><span class="nav-icon">⌂</span>{{ t.dashboard }}</a>
+      <a class="nav-link {% if request.path.startswith('/plant-health') %}active{% endif %}" href="{{ url_for('plant_health.index') }}"><span class="nav-icon">♧</span>{{ t.plant_health }}</a>
+      <a class="nav-link {% if request.path.startswith('/inventory') %}active{% endif %}" href="{{ url_for('inventory.index') }}"><span class="nav-icon">▣</span>{{ t.inventory }}</a>
+      <a class="nav-link {% if request.path.startswith('/environment') %}active{% endif %}" href="{{ url_for('environment.index') }}"><span class="nav-icon">♨</span>{{ t.environment }}</a>
+      <a class="nav-link {% if request.path.startswith('/diagnostics') or request.path.startswith('/scan') or request.path.startswith('/buckets/scan') %}active{% endif %}" href="{{ url_for('diagnostics.index') }}"><span class="nav-icon">⌁</span>{{ t.diagnostics }}</a>
+      <a class="nav-link {% if request.path.startswith('/settings') or request.path.startswith('/preferences') or request.path.startswith('/onboarding') %}active{% endif %}" href="{{ url_for('settings.index') }}"><span class="nav-icon">⚙</span>{{ t.settings }}</a>
+    </nav>
+    <div class="sidebar-status"><span class="status-dot"></span><div><strong>Local System</strong><small>Offline-ready · Data on this PC</small></div></div>
+    <div class="sidebar-bottom">
+      <span class="profile-avatar">{{ session.get('user_name', 'F')[0]|upper }}</span>
+      <div class="profile-copy"><small>Logged in as</small><strong>{{ session.get('user_name', 'Farmer') }}</strong></div>
+      <a class="logout-link" href="{{ url_for('auth.logout') }}">Log out</a>
+    </div>
+  </aside>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="topbar-farm"><span class="farm-icon">⌂</span><div><strong>{{ farm_name|default('My Mushroom Farm') }}</strong><small>Local cultivation workspace</small></div></div>
+      <div class="topbar-right">
+        <form class="language-mini" method="post" action="{{ url_for('auth.select_language') }}"><input type="hidden" name="next" value="{{ request.path }}"><label class="visually-hidden" for="top-language">Language</label><span>◎</span><select id="top-language" name="language" onchange="this.form.submit()">{% for code,name in language_names.items() %}<option value="{{ code }}" {% if current_language==code %}selected{% endif %}>{{ name }}</option>{% endfor %}</select></form>
+        <a class="topbar-icon" href="{{ url_for('environment.index') }}" title="Environment and alerts">♧</a>
+        <a class="topbar-user" href="{{ url_for('settings.index') }}"><span class="user-avatar">{{ session.get('user_name', 'F')[0]|upper }}</span><span>{{ session.get('user_name', 'Farmer') }}</span></a>
+      </div>
+    </header>
+    <main class="main-content">
+      <div class="page-heading"><div><h1>{% block page_title %}Dashboard{% endblock %}</h1><p>{% block page_subtitle %}Smart cultivation monitoring system{% endblock %}</p></div>{% block page_heading_actions %}{% endblock %}</div>
+{% else %}
+    <main class="guest-shell">
+{% endif %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}<div class="alert {{ category }}" role="status">{{ message }}</div>{% endfor %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+{% if session.get('user_id') %}
+      <footer class="page-footer">MushroomGuard AI <span>·</span> Local cultivation management</footer>
+    </main>
+  </div>
+{% else %}
+    </main>
+{% endif %}
+<script src="{{ url_for('static', filename='js/app.js') }}" defer></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

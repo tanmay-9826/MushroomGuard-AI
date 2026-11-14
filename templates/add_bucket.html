@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add {{ 'Mushroom Bag' if crop_type=='mushroom' else 'Microgreen Tray' }} | MushroomGuard AI{% endblock %}
+{% block page_title %}{{ 'Add Mushroom Bag' if crop_type=='mushroom' else 'Add Microgreen Tray' }}{% endblock %}
+{% block page_subtitle %}Register a new growing unit and its starting conditions{% endblock %}
+{% block content %}
+<div class="page-actions"><a class="back-link" href="{{ url_for('dashboard.index') }}">← Back to Dashboard</a></div>
+<div class="form-layout">
+<section class="content-card form-panel"><div class="form-intro"><div class="large-emoji">{{ '🍄' if crop_type=='mushroom' else '🌱' }}</div><div><h2>New {{ 'Mushroom Bag' if crop_type=='mushroom' else 'Microgreen Tray' }}</h2><p>A unique ID is assigned when saved. The next page provides a printable QR label for camera identification.</p></div></div>
+<form method="post" action="{{ url_for('buckets.add', kind=crop_type) }}" class="stacked-form">
+<div class="form-grid two"><div class="form-field"><label for="crop_name">Select variety <span class="required">*</span></label><select id="crop_name" name="crop_name" required><option value="">Choose variety</option>{% for crop in crops %}<option value="{{ crop['crop_name'] }}" {% if values.get('crop_name')==crop['crop_name'] %}selected{% endif %}>{{ crop['crop_name'] }}</option>{% endfor %}</select></div>
+<div class="form-field"><label for="start_date">Cultivation start date <span class="required">*</span></label><input id="start_date" type="date" name="start_date" value="{{ values.get('start_date',today) }}" max="{{ today }}" required></div>
+<div class="form-field"><label for="batch_code">Batch code</label><input id="batch_code" name="batch_code" maxlength="40" value="{{ values.get('batch_code','') }}" placeholder="Auto-generated when blank"></div>
+<div class="form-field"><label for="rack">Rack / shelf</label><input id="rack" name="rack" maxlength="40" value="{{ values.get('rack','') }}" placeholder="e.g. R1-A"></div>
+<div class="form-field"><label for="region_id">Room / region</label><select id="region_id" name="region_id"><option value="">Not assigned</option>{% for region in regions %}<option value="{{ region['id'] }}" {% if values.get('region_id')|string==region['id']|string %}selected{% endif %}>{{ region['region_name'] }}</option>{% endfor %}</select></div>
+<div class="form-field"><label for="growth_stage">Current growth stage <span class="required">*</span></label><select id="growth_stage" name="growth_stage" required>{% for stage in stages %}<option value="{{ loop.index }}" {% if values.get('growth_stage','1')|int==loop.index %}selected{% endif %}>Stage {{ loop.index }} — {{ stage }}</option>{% endfor %}</select></div></div>
+<div class="form-field"><label for="notes">Farmer notes</label><textarea id="notes" name="notes" rows="3" maxlength="1000" placeholder="Substrate, seed batch, inoculation details...">{{ values.get('notes','') }}</textarea></div>
+<div class="form-actions"><button class="btn btn-primary btn-large" type="submit" {% if not crops %}disabled{% endif %}>＋ Create Growing Unit</button><a class="btn btn-light btn-large" href="{{ url_for('dashboard.index') }}">Cancel</a></div>
+</form></section>
+<aside class="content-card stage-guide"><div class="section-heading"><div><h3>Growth Stage Guide</h3><p>Use this reference to choose the current stage.</p></div></div><div class="stage-list">{% for stage in stages %}<article class="stage-guide-item {% if values.get('growth_stage','1')|int==loop.index %}selected{% endif %}"><span class="stage-number">{{ loop.index }}</span><div><strong>{{ stage }}</strong><p>{{ stage_descriptions[loop.index] }}</p></div></article>{% endfor %}</div><div class="guide-note"><strong>Record accurately</strong><p>Choose the stage that best matches the unit today. Updates are time-stamped and kept in its history.</p></div></aside>
+</div>
+{% endblock %}

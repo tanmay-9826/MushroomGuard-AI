@@ -1,0 +1,4 @@
+# Optional AI training/inference stack. Not required to run Flask or record video.
+ultralytics
+
+# Optional: installs Ultralytics and its deep-learning runtime; can be a large download.

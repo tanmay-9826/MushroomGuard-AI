@@ -1,0 +1,18 @@
+{
+  "repo_name": "MushroomGuard-AI",
+  "visibility_target": "public",
+  "files_excluding_this_audit_json": 192,
+  "image_file_count": 95,
+  "image_bytes": 176682794,
+  "total_bytes_excluding_this_audit_json": 177180682,
+  "stage1_images": 15,
+  "stage2_images": 40,
+  "stage3_images": 0,
+  "stage4_images": 40,
+  "disease_images": 0,
+  "trained_model_included": false,
+  "license_file_present": false,
+  "env_file_present": false,
+  "database_file_present": false,
+  "github_remote_created": false
+}

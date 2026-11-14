@@ -1,0 +1,6 @@
+Repository name: MushroomGuard-AI
+Visibility target: Public
+Description: Offline-first mushroom and microgreens cultivation monitoring with Arduino, Flask, ThingSpeak, Camlora camera and Methi dataset tooling.
+Topics: mushroom-cultivation, microgreens, fenugreek, methi, flask, arduino, iot, thingspeak, opencv, yolo, plant-phenotyping
+Default branch: main
+Status: Prepared locally; not yet published to GitHub.

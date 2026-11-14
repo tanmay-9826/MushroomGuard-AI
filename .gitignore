@@ -1,0 +1,43 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Local databases and runtime state
+*.db
+*.sqlite
+*.sqlite3
+database/*.db
+instance/
+backups/*
+!backups/.gitkeep
+
+# User uploads and recordings (never commit private farm data)
+uploads/**
+!uploads/**/.gitkeep
+
+# Training outputs and local checkpoints
+runs/
+ml/runs/
+ml/models/*.pt
+ml/models/*.onnx
+ml/models/*.engine
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}Scan Bag QR | MushroomGuard AI{% endblock %}
+{% block page_title %}Scan QR / Bag ID{% endblock %}
+{% block page_subtitle %}Find a growing unit from its printed QR label or bag ID{% endblock %}
+{% block content %}
+<div class="two-column"><section class="content-card"><h2>Camera QR scanner</h2><p class="muted">Camera scanning requires a browser that supports the BarcodeDetector API and permission to use a camera. Use manual entry if the API is unavailable.</p><video id="qr-video" class="qr-video" autoplay muted playsinline></video><div class="connection-actions"><button class="btn btn-primary" id="start-scan" type="button">Start camera scan</button><button class="btn btn-light" id="stop-scan" type="button" disabled>Stop</button></div><p id="scan-status" class="field-help" role="status">Camera not started.</p></section><section class="content-card"><h2>Enter a bag / tray ID</h2><form method="post" class="stacked-form"><div class="form-field"><label for="code">QR content or unit ID</label><input id="code" name="code" placeholder="MUSH-00001" required></div><button class="btn btn-primary">Find Growing Unit →</button></form><div class="notice"><strong>QR contents</strong><p>Printed labels contain <code>MUSHROOMGUARD:MUSH-00001</code> or the corresponding MICRO ID.</p></div></section></div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/qr-scan.js') }}" defer></script>{% endblock %}

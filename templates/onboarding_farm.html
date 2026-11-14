@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Farm Details | MushroomGuard AI{% endblock %}
+{% block page_title %}Farm Details{% endblock %}
+{% block page_subtitle %}Set up your farm identity and growing rooms{% endblock %}
+{% block content %}
+<div class="onboarding-progress"><span class="done">1 Account</span><span class="active">2 Farm Details</span><span>3 Preferences</span><span>4 Devices</span></div>
+<section class="content-card onboarding-card"><div class="section-heading"><div><h2>Tell us about your farm</h2><p>Rooms let you associate cultivation units and environmental readings with the correct growing area.</p></div></div>
+<form method="post" class="stacked-form">
+  <div class="form-grid two"><div class="form-field"><label for="farm_name">Farm name</label><input id="farm_name" name="farm_name" maxlength="100" value="{{ farm['farm_name'] if farm else '' }}" required></div><div class="form-field"><label for="location">Farm location</label><input id="location" name="location" maxlength="160" value="{{ farm['location'] if farm else '' }}" placeholder="Village / city, district"></div></div>
+  <div class="form-field"><label>Growing rooms / regions</label><p class="field-help">Name the separate rooms or racks where you monitor conditions. Add between 1 and 8 rooms.</p><div id="room-fields" class="room-fields">{% for region in regions %}<div class="room-field"><input name="region_names" maxlength="40" value="{{ region['region_name'] }}" aria-label="Room name {{ loop.index }}" required>{% if loop.index > 1 %}<button class="text-button danger-text remove-room" type="button">Remove</button>{% endif %}</div>{% else %}<div class="room-field"><input name="region_names" value="Room A" maxlength="40" required aria-label="Room name 1"></div>{% endfor %}</div><button class="btn btn-light btn-small" id="add-room" type="button">＋ Add another room</button></div>
+  <div class="form-actions"><button class="btn btn-primary btn-large">Save Farm Details →</button><a class="btn btn-light btn-large" href="{{ url_for('auth.preferences') }}">Skip to preferences</a></div>
+</form></section>
+{% endblock %}
+{% block scripts %}<script>
+(function(){const wrap=document.getElementById('room-fields'),add=document.getElementById('add-room');function sync(){const rows=wrap.querySelectorAll('.room-field');add.disabled=rows.length>=8;rows.forEach((r,i)=>{let b=r.querySelector('.remove-room');if(i===0&&!b){b=document.createElement('button');b.type='button';b.className='text-button danger-text remove-room';b.textContent='Remove';r.appendChild(b)}if(i===0&&rows.length===1&&b)b.remove()})}wrap.addEventListener('click',e=>{if(e.target.classList.contains('remove-room')){e.target.closest('.room-field').remove();sync()}});add.addEventListener('click',()=>{if(wrap.querySelectorAll('.room-field').length>=8)return;const r=document.createElement('div');r.className='room-field';r.innerHTML='<input name="region_names" maxlength="40" placeholder="Room name" required><button class="text-button danger-text remove-room" type="button">Remove</button>';wrap.appendChild(r);sync()});sync()})();
+</script>{% endblock %}

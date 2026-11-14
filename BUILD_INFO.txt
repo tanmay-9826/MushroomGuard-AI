@@ -1,0 +1,5 @@
+MushroomGuard AI Full Build v1.5 - Dataset Integrated Candidate
+Base: v1.4 with dataset review package, source-group audit, configurable YOLO starting weights, and stale-session protection in Diagnostics.
+Methi images integrated as review candidates only. Model training was NOT run: Stage 3 data is missing, the current Stage 1/2/4 images each come from only one source group, and Ultralytics is not installed in this offline build environment.
+No trained crop-specific weights are included. Camera, Arduino, ThingSpeak and hardware behaviour remain dependent on local configuration and physical testing.
+Generated: 2026-11-04
